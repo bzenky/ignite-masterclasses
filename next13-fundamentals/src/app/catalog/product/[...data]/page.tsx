@@ -10,7 +10,9 @@ interface ProductProps {
 // Client Components => interactivity / send and use JavaScript on client side
 
 // Even being a client component, the component still being created by node server and not by react traditional way
-// hydration - pure html -> html with js
+// hydration => pure html -> html with js
+
+// Streaming SSR => Read/write data by partial method + Server-side rendering
 
 export default function Product({ params }: ProductProps) {
   const [productId, size, color] = params.data
