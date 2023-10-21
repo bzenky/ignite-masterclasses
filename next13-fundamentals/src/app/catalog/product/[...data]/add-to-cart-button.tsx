@@ -1,8 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
+import { TestBoundaries } from './testBoundaries'
 
-export function AddToCartButton() {
+interface Props {
+  children: ReactNode
+}
+
+export function AddToCartButton({ children }: Props) {
   const [count, setCount] = useState(0)
 
   function addToCart() {
@@ -10,8 +15,15 @@ export function AddToCartButton() {
   }
 
   return (
-    <button type="button" onClick={addToCart}>
-      Add to cart ({count})
-    </button>
+    <div className="flex flex-col gap-2">
+      <button type="button" onClick={addToCart}>
+        Add to cart ({count})
+      </button>
+      <TestBoundaries />
+      {children} {/* This component will be server component */}
+    </div>
   )
 }
+
+// Client Boundaries
+// every component here will be a client component
