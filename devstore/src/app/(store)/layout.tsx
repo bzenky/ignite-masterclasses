@@ -1,4 +1,4 @@
-import { Header } from '@/components/Header'
+import { Header } from '@/components/header'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export default function StoreLayout({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <div className="mx-auto grid min-h-screen w-full max-w-[1600px] grid-rows-app gap-5 px-8 py-8">
       <Header />
 
       {children}
