@@ -3,8 +3,16 @@ import { Product } from '@/data/types/product'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Cache & Memoization
+// React Memoization -> useMemo / memo / useCallback
+
 async function getFeatureProducts(): Promise<Product[]> {
-  const response = await api('/products/featured')
+  const response = await api('/products/featured', {
+    cache: 'force-cache', // default
+    next: {
+      revalidate: 60 * 60, // 1 hour,
+    },
+  })
 
   const products = await response.json()
 
