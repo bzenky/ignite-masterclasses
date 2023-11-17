@@ -1,11 +1,36 @@
+import { api } from '@/data/api'
+import { Product } from '@/data/types/product'
+import { formatPrice } from '@/utils/formatPrice'
 import Image from 'next/image'
 
-export default function ProductPage() {
+interface ProductProps {
+  params: {
+    slug: string
+  }
+}
+
+async function getProduct(slug: string): Promise<Product> {
+  const response = await api(`/products/${slug}`, {
+    next: {
+      revalidate: 60 * 60, // 1 hour,
+    },
+  })
+
+  const product = await response.json()
+
+  return product
+}
+
+export default async function ProductPage({ params }: ProductProps) {
+  const product = await getProduct(params.slug)
+
+  console.log({ product })
+
   return (
     <div className="relative grid max-h-[860px] grid-cols-3">
       <div className="col-span-2 overflow-hidden">
         <Image
-          src="/moletom-java.png"
+          src={product.image}
           width={920}
           height={920}
           alt=""
@@ -14,23 +39,18 @@ export default function ProductPage() {
       </div>
 
       <div className="flex flex-col justify-center px-12 col-span-1">
-        <h1 className="text-3xl font-bold leading-tight">
-          Moletom Never Stop Learning
-        </h1>
+        <h1 className="text-3xl font-bold leading-tight">{product.title}</h1>
 
         <p className="mt-2 leading-relaxed text-zinc-400">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-          et, nemo magnam inventore asperiores fugit tenetur ipsa, quisquam a
-          illo modi deleniti provident ea similique, soluta dolorem perspiciatis
-          corrupti aut.
+          {product.description}
         </p>
 
         <div className="flex items-center gap-3 mt-8">
           <span className="flex items-center justify-center rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
-            R$ 129
+            {formatPrice(product.price)}
           </span>
           <span className="text-sm text-zinc-400">
-            Em 12x s/ juros de R$10,75
+            Em 12x s/ juros de {formatPrice(product.price / 12, 2)}
           </span>
         </div>
 

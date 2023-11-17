@@ -1,5 +1,6 @@
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
+import { formatPrice } from '@/utils/formatPrice'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -21,17 +22,6 @@ async function getFeatureProducts(): Promise<Product[]> {
 
 export default async function Home() {
   const [highlightedProduct, ...otherProducts] = await getFeatureProducts()
-
-  function formatPrice(price: number) {
-    const formattedPrice = price.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    })
-
-    return formattedPrice
-  }
 
   return (
     <div className="grid max-h-[860px] grid-cols-9 grid-rows-6 gap-6">
