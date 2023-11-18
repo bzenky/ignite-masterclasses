@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 async function getFeatureProducts(): Promise<Product[]> {
   const response = await api('/products/featured', {
-    cache: 'force-cache', // default
+    // cache: 'force-cache', *default
     next: {
       revalidate: 60 * 60, // 1 hour,
     },
